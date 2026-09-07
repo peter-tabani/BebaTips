@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[#eef0f3] text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  .btn-green {
+    @apply inline-flex items-center justify-center rounded bg-brand-green px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-accent;
+  }
+
+  .btn-outline-green {
+    @apply inline-flex items-center justify-center rounded border-2 border-brand-green px-3 py-1 text-xs font-bold uppercase tracking-wide text-brand-green transition hover:bg-brand-green hover:text-white;
+  }
+
+  .section-title {
+    @apply text-xl font-bold uppercase tracking-tight text-brand-green md:text-2xl;
+  }
+
+  .ad-slot {
+    @apply relative flex min-h-[90px] items-center justify-center overflow-hidden rounded border border-dashed border-gray-300 bg-gray-50 text-center text-xs text-gray-400;
+  }
+
+  .ad-slot-skyscraper {
+    @apply ad-slot min-h-[600px] w-full max-w-[160px];
+  }
+
+  .ad-slot-leaderboard {
+    @apply ad-slot min-h-[90px] w-full;
+  }
+
+  .match-row {
+    @apply flex items-center gap-2 border-b border-gray-200 px-3 py-2.5 text-sm transition hover:bg-gray-50;
+  }
+
+  .nav-link {
+    @apply whitespace-nowrap px-2 py-4 text-sm text-gray-300 transition hover:text-brand-green lg:px-3;
+  }
+
+  .nav-link-active {
+    @apply nav-link font-semibold text-brand-green;
+  }
+}
+
+.tips-table tbody tr:nth-child(even) {
+  background-color: #f7f8fa;
+}
+
+.tips-table tbody tr:hover {
+  background-color: #eef6ee;
+}
