@@ -9,17 +9,82 @@ export interface Match {
   tipType: "free" | "premium";
   odds?: string;
   status?: string;
+  source?: "football-data" | "sports-db" | "fallback";
+  analysis?: string;
+  date?: string;
+  leagueLogo?: string;
+  homeTeamLogo?: string;
+  awayTeamLogo?: string;
+  matchday?: number;
+}
+
+export interface MatchResult {
+  date: string;
+  opponent: string;
+  home: boolean;
+  score: string;
+  outcome: "W" | "D" | "L";
+}
+
+export interface MatchInjury {
+  team: string;
+  player: string;
+  type?: string;
+  reason?: string;
+}
+
+export interface MatchLineup {
+  team: string;
+  coach?: string;
+  formation?: string;
+  starters: string[];
+  substitutes: string[];
+}
+
+export interface MatchInsights {
+  provider: "api-football";
+  fetchedAt: string;
+  fixtureId: number;
+  quota?: { remaining?: number; limit?: number };
+  aiBriefing?: {
+    provider: "deepseek";
+    summary: string;
+    angle: string;
+    confidence: "low" | "medium" | "high";
+    generatedAt: string;
+  };
+  recentForm: { team: string; results: MatchResult[] }[];
+  headToHead: MatchResult[];
+  injuries: MatchInjury[];
+  lineups: MatchLineup[];
+}
+
+export interface LeagueStanding {
+  position: number;
+  team: string;
+  played: number;
+  won: number;
+  drawn: number;
+  lost: number;
+  goalsFor: number;
+  goalsAgainst: number;
+  goalDifference: number;
+  points: number;
+  form?: string[];
 }
 
 export interface AccumulatorTip {
   id: string;
   title: string;
-  totalOdds: string;
+  totalOdds?: string;
+  badge?: string;
   legs: {
     time: string;
     prediction: string;
     match: string;
     league: string;
+    date?: string;
+    matchId?: number;
   }[];
   result?: "won" | "lost" | "pending";
 }

@@ -64,7 +64,7 @@ export default function PremiumCard({
           href={`/premium/checkout?plan=${plan.id}`}
           className="btn-green px-6 py-2.5 text-sm font-bold"
         >
-          BUY @ {plan.currency}. {plan.price}
+          VIEW @ {plan.currency}. {plan.price}
         </Link>
         <span className="text-xs text-gray-500">{plan.odds} odds</span>
       </div>

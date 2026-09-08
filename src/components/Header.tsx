@@ -11,9 +11,9 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-brand-dark shadow-lg">
-      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 py-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded bg-brand-green text-lg font-black text-white">
+      <div className="mx-auto flex max-w-[1400px] items-center justify-between px-3 sm:px-4">
+        <Link href="/" className="flex items-center gap-2 py-2.5 md:py-3">
+          <span className="flex h-8 w-8 items-center justify-center rounded bg-brand-green text-base font-black text-white md:h-9 md:w-9 md:text-lg">
             BT
           </span>
           <span className="hidden text-lg font-bold text-white sm:block">
@@ -39,7 +39,7 @@ export default function Header() {
           href="/premium"
           className="hidden rounded bg-brand-green px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-accent sm:block"
         >
-          GET VIP TIPS
+          PREMIUM ANALYSIS
         </Link>
 
         <button
@@ -71,7 +71,7 @@ export default function Header() {
             className="btn-green mt-3 block w-full text-center"
             onClick={() => setMenuOpen(false)}
           >
-            GET VIP TIPS
+            PREMIUM ANALYSIS
           </Link>
         </nav>
       )}

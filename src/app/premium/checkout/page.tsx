@@ -25,10 +25,10 @@ function CheckoutForm() {
         <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-brand-green/10 text-3xl">
           ✓
         </div>
-        <h1 className="text-xl font-bold text-gray-800">Payment Request Sent</h1>
+        <h1 className="text-xl font-bold text-gray-800">Checkout Preview</h1>
         <p className="mt-2 text-sm text-gray-600">
-          Check your phone ({phone}) for an M-Pesa prompt. Once you pay KSH {plan.price},
-          your {plan.name} tips will arrive via SMS within 60 seconds.
+          No payment request was sent to {phone}. Secure M-Pesa verification and delivery are still
+          being connected for the KSH {plan.price} {plan.name} package.
         </p>
         <Link href="/" className="btn-green mt-6 inline-block">
           Back to Predictions
@@ -80,11 +80,11 @@ function CheckoutForm() {
         </div>
 
         <button type="submit" className="btn-green w-full py-3 text-base font-bold">
-          PAY KSH {plan.price} VIA M-PESA
+          PREVIEW KSH {plan.price} CHECKOUT
         </button>
 
         <p className="text-center text-[10px] text-gray-400">
-          Secure payment. Tips delivered instantly. No subscription — pay per day.
+          Preview only. This page does not currently collect money or deliver tips.
         </p>
       </form>
     </div>

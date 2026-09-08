@@ -10,22 +10,25 @@ export const NAV_LINKS = [
   { href: "/live-scores", label: "Live Scores" },
   { href: "/blog", label: "Blog" },
   { href: "/standings", label: "Standings" },
+  { href: "/calculator", label: "Calculator" },
 ] as const;
 
 export const MAJOR_LEAGUES = [
-  { id: "PL", name: "Premier League", country: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", code: 2021 },
-  { id: "CL", name: "Champions League", country: "Europe", flag: "🇪🇺", code: 2001 },
-  { id: "EL", name: "Europa League", country: "Europe", flag: "🇪🇺", code: 2018 },
-  { id: "BL1", name: "Bundesliga", country: "Germany", flag: "🇩🇪", code: 2002 },
-  { id: "PD", name: "La Liga", country: "Spain", flag: "🇪🇸", code: 2014 },
-  { id: "SA", name: "Serie A", country: "Italy", flag: "🇮🇹", code: 2019 },
-  { id: "FL1", name: "Ligue 1", country: "France", flag: "🇫🇷", code: 2015 },
-  { id: "DED", name: "Eredivisie", country: "Netherlands", flag: "🇳🇱", code: 2003 },
-  { id: "PPL", name: "Primeira Liga", country: "Portugal", flag: "🇵🇹", code: 2017 },
-  { id: "KPL", name: "Kenyan Premier League", country: "Kenya", flag: "🇰🇪", code: 0 },
+  { id: "PL", name: "Premier League", country: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", code: 2021, emblem: "https://crests.football-data.org/PL.png" },
+  { id: "CL", name: "Champions League", country: "Europe", flag: "🇪🇺", code: 2001, emblem: "https://crests.football-data.org/CL.png" },
+  { id: "EL", name: "Europa League", country: "Europe", flag: "🇪🇺", code: 2018, emblem: "https://crests.football-data.org/EL.png" },
+  { id: "BL1", name: "Bundesliga", country: "Germany", flag: "🇩🇪", code: 2002, emblem: "https://crests.football-data.org/BL1.png" },
+  { id: "PD", name: "La Liga", country: "Spain", flag: "🇪🇸", code: 2014, emblem: "https://crests.football-data.org/PD.png" },
+  { id: "SA", name: "Serie A", country: "Italy", flag: "🇮🇹", code: 2019, emblem: "https://crests.football-data.org/SA.png" },
+  { id: "FL1", name: "Ligue 1", country: "France", flag: "🇫🇷", code: 2015, emblem: "https://crests.football-data.org/FL1.png" },
+  { id: "DED", name: "Eredivisie", country: "Netherlands", flag: "🇳🇱", code: 2003, emblem: "https://crests.football-data.org/ED.png" },
+  { id: "PPL", name: "Primeira Liga", country: "Portugal", flag: "🇵🇹", code: 2017, emblem: "https://crests.football-data.org/PPL.png" },
+  { id: "KPL", name: "Kenyan Premier League", country: "Kenya", flag: "🇰🇪", code: 0, emblem: null },
 ] as const;
 
 export const FOOTBALL_DATA_BASE = "https://api.football-data.org/v4";
+export const SPORTS_DB_BASE = "https://www.thesportsdb.com/api/v1/json/123";
+export const API_FOOTBALL_BASE = "https://v3.football.api-sports.io";
 
 export const PREMIUM_PLANS = [
   {
@@ -36,8 +39,8 @@ export const PREMIUM_PLANS = [
     currency: "KSH",
     rating: 5,
     description:
-      "Daily sure picks with 3–5 combined odds. Ideal for steady, consistent returns. Tips delivered instantly via SMS after purchase.",
-    features: ["3–5 odds daily", "SMS delivery", "Major leagues covered", "Weekend specials"],
+      "A compact daily selection targeting 3–5 combined decimal odds, with the reasoning shown for each leg.",
+    features: ["3–5 target odds", "Selection reasoning", "Major leagues covered", "Weekend review"],
   },
   {
     id: "gold",
@@ -48,7 +51,7 @@ export const PREMIUM_PLANS = [
     rating: 4.5,
     description:
       "Higher-value selections with 5–8 combined odds. Our most popular package among regular bettors on SportPesa and Betika.",
-    features: ["5–8 odds daily", "SMS + WhatsApp", "Accumulator combos", "Priority support"],
+    features: ["5–8 target odds", "Selection reasoning", "Accumulator combinations", "Result tracking"],
     popular: true,
   },
   {
@@ -60,6 +63,6 @@ export const PREMIUM_PLANS = [
     rating: 4,
     description:
       "Premium high-odds picks for experienced punters. Includes banker selections and jackpot companion tips.",
-    features: ["8–15 odds daily", "Jackpot tips included", "VIP WhatsApp group", "Weekend mega acca"],
+    features: ["8–15 target odds", "Jackpot companion analysis", "Method notes", "Weekend accumulator"],
   },
 ] as const;

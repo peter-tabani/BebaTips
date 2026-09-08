@@ -7,7 +7,7 @@ import { PREMIUM_PLANS } from "@/lib/constants";
 export const metadata: Metadata = {
   title: "Premium Tips — Buy VIP Football Predictions",
   description:
-    "Subscribe to BebaTips Silver, Gold, or Platinum plans. Daily sure odds delivered via SMS. From KSH 50.",
+    "Review BebaTips Silver, Gold, and Platinum football analysis plans and their target odds ranges.",
 };
 
 export default function PremiumPage() {
@@ -16,7 +16,7 @@ export default function PremiumPage() {
       <div className="mb-6 text-center">
         <h1 className="section-title">Premium Tips</h1>
         <p className="mt-2 text-sm text-gray-600">
-          Choose a plan, pay via M-Pesa, and receive today&apos;s picks instantly on your phone.
+          Preview the planned analysis packages. Payments and delivery will open only after secure M-Pesa verification is connected.
         </p>
       </div>
 
@@ -37,11 +37,11 @@ export default function PremiumPage() {
           </li>
           <li className="flex gap-3">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-green text-xs font-bold text-white">2</span>
-            Pay via M-Pesa — enter your phone number at checkout.
+            Enter your phone number only after secure M-Pesa checkout is activated.
           </li>
           <li className="flex gap-3">
             <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-brand-green text-xs font-bold text-white">3</span>
-            Receive your tips via SMS within 60 seconds. Gold &amp; Platinum also get WhatsApp delivery.
+            Access will be released only after a payment is verified; delivery channels are still being configured.
           </li>
         </ol>
       </section>

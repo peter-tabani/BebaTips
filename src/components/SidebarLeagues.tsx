@@ -1,4 +1,5 @@
 import { MAJOR_LEAGUES } from "@/lib/constants";
+import SafeLogo from "./SafeLogo";
 
 export default function SidebarLeagues() {
   return (
@@ -13,7 +14,11 @@ export default function SidebarLeagues() {
               href={`/?league=${league.id}`}
               className="flex items-center gap-3 px-4 py-2.5 text-sm transition hover:bg-gray-50"
             >
-              <span className="text-lg">{league.flag}</span>
+              {league.emblem ? (
+                <SafeLogo src={league.emblem} alt={`${league.name} logo`} size={28} fallback={league.flag} />
+              ) : (
+                <span className="flex h-7 w-7 items-center justify-center text-lg">{league.flag}</span>
+              )}
               <div>
                 <span className="font-medium text-gray-800">{league.name}</span>
                 <span className="block text-xs text-gray-500">{league.country}</span>

@@ -1,0 +1,12 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/fixtures",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/match-insights",
+      "schedule": "0 3 * * *"
+    }
+  ]
+}

@@ -13,8 +13,7 @@ export default function Footer() {
             <span className="text-lg font-bold text-white">{SITE_NAME}</span>
           </div>
           <p className="text-sm leading-relaxed">
-            Kenya&apos;s trusted source for daily football predictions, accumulator tips,
-            and jackpot analysis. 40+ leagues covered.
+            Football fixtures, league tables, transparent statistical signals and practical odds tools for Kenyan fans.
           </p>
         </div>
 
@@ -26,6 +25,8 @@ export default function Footer() {
             <li><Link href="/jackpots" className="hover:text-brand-green">Jackpot Predictions</Link></li>
             <li><Link href="/accumulators" className="hover:text-brand-green">Accumulators</Link></li>
             <li><Link href="/blog" className="hover:text-brand-green">Betting Blog</Link></li>
+            <li><Link href="/responsible-gambling" className="hover:text-brand-green">Responsible Gambling</Link></li>
+            <li><Link href="/bookmakers" className="hover:text-brand-green">Bookmaker Comparison</Link></li>
           </ul>
         </div>
 

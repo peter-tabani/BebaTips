@@ -1,5 +1,5 @@
 import AdBanner from "./AdBanner";
-import BookmakerAds from "./BookmakerAds";
+import PopularTools from "./PopularTools";
 import SidebarLeagues from "./SidebarLeagues";
 
 interface PageLayoutProps {
@@ -26,13 +26,13 @@ export default function PageLayout({ children, showSidebars = true }: PageLayout
         <main className="min-w-0">{children}</main>
 
         <div className="hidden space-y-4 lg:block">
-          <BookmakerAds />
+          <PopularTools />
           <AdBanner slot="right-rectangle" format="rectangle" />
         </div>
       </div>
 
       <div className="mt-4 lg:hidden">
-        <BookmakerAds />
+        <PopularTools />
       </div>
     </div>
   );
