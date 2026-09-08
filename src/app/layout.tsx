@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CookieConsent from "@/components/CookieConsent";
 import ResponsibleNotice from "@/components/ResponsibleNotice";
 import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
 import "./globals.css";
@@ -40,7 +39,6 @@ export default function RootLayout({
         <ResponsibleNotice />
         <div className="flex-1">{children}</div>
         <Footer />
-        <CookieConsent />
       </body>
     </html>
   );
