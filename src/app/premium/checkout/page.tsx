@@ -6,8 +6,8 @@ import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import { PREMIUM_PLANS } from "@/lib/constants";
 
-function priceLabel(currency: string, price: number): string {
-  return currency === "USD" ? `$${price}` : `KES ${price.toLocaleString("en-KE")}`;
+function priceLabel(price: number): string {
+  return `KES ${price.toLocaleString("en-KE")}`;
 }
 
 function CheckoutForm() {
@@ -32,7 +32,7 @@ function CheckoutForm() {
         <h1 className="text-xl font-bold text-gray-800">Checkout Preview</h1>
         <p className="mt-2 text-sm text-gray-600">
           No payment request was sent to {phone}. Secure payment verification and subscriber delivery are still
-          being connected for the {priceLabel(plan.currency, plan.price)} {plan.name} package.
+          being connected for the {priceLabel(plan.price)} {plan.name} package.
         </p>
         <Link href="/" className="btn-green mt-6 inline-block">
           Back to Predictions
@@ -43,9 +43,9 @@ function CheckoutForm() {
 
   return (
     <div className="mx-auto max-w-md rounded bg-white p-6 shadow-sm">
-      <h1 className="text-lg font-bold text-gray-800">Checkout — {plan.name}</h1>
+      <h1 className="text-lg font-bold text-gray-800">Checkout: {plan.name}</h1>
       <p className="mt-1 text-sm text-gray-500">
-        {priceLabel(plan.currency, plan.price)} per {plan.period} · {plan.market}
+        {priceLabel(plan.price)} per {plan.period}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -73,13 +73,13 @@ function CheckoutForm() {
             className="mt-2 w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-brand-green focus:outline-none focus:ring-1 focus:ring-brand-green"
           >
             {PREMIUM_PLANS.map((item) => (
-              <option key={item.id} value={item.id}>{item.name} — {priceLabel(item.currency, item.price)}</option>
+              <option key={item.id} value={item.id}>{item.name}: {priceLabel(item.price)}</option>
             ))}
           </select>
         </div>
 
         <button type="submit" className="btn-green w-full py-3 text-base font-bold">
-          PREVIEW {priceLabel(plan.currency, plan.price)} CHECKOUT
+          Preview {priceLabel(plan.price)} checkout
         </button>
 
         <p className="text-center text-[10px] text-gray-400">

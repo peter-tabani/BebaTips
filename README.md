@@ -9,7 +9,7 @@ Mobile-first football fixtures, league data, transparent match signals, betting 
 - **Transparent table-form signals** based on current points-per-game and home advantage
 - **Multi-league standings** with W/D/L, goals, points and recent form
 - **Free odds calculator** — returns, profit, implied probability and accumulator odds
-- **Kenya and international premium plans** — daily, weekly, monthly and yearly pricing with 2–3 selections per covered match
+- **Premium tip plans** — daily, weekly, monthly and yearly KES pricing with 2–3 selections per covered match
 - **Accumulator watchlist** — generated from upcoming matches with current table-form evidence; no invented odds
 - **Jackpot predictions** — SportPesa Mega Jackpot & Betika Midweek
 - **Blog** — SEO articles on betting strategy
