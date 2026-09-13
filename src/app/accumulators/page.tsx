@@ -40,7 +40,7 @@ export default async function AccumulatorsPage() {
       <div className="mt-6 rounded bg-brand-navy p-6 text-center">
         <h2 className="text-lg font-bold text-white">Want Higher-Odds Accas?</h2>
         <p className="mt-2 text-sm text-gray-300">
-          Gold and Platinum subscribers get exclusive accumulator combos with 8–15 combined odds.
+          Premium subscribers receive additional accumulator analysis according to their selected access period.
         </p>
         <Link href="/premium" className="btn-green mt-4 inline-block">
           GET VIP ACCAS

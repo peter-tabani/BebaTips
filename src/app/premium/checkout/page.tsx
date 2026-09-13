@@ -6,9 +6,13 @@ import Link from "next/link";
 import PageLayout from "@/components/PageLayout";
 import { PREMIUM_PLANS } from "@/lib/constants";
 
+function priceLabel(currency: string, price: number): string {
+  return currency === "USD" ? `$${price}` : `KES ${price.toLocaleString("en-KE")}`;
+}
+
 function CheckoutForm() {
   const searchParams = useSearchParams();
-  const planId = searchParams.get("plan") || "gold";
+  const planId = searchParams.get("plan") || "local-weekly";
   const plan = PREMIUM_PLANS.find((p) => p.id === planId) || PREMIUM_PLANS[1];
 
   const [phone, setPhone] = useState("");
@@ -27,8 +31,8 @@ function CheckoutForm() {
         </div>
         <h1 className="text-xl font-bold text-gray-800">Checkout Preview</h1>
         <p className="mt-2 text-sm text-gray-600">
-          No payment request was sent to {phone}. Secure M-Pesa verification and delivery are still
-          being connected for the KSH {plan.price} {plan.name} package.
+          No payment request was sent to {phone}. Secure payment verification and subscriber delivery are still
+          being connected for the {priceLabel(plan.currency, plan.price)} {plan.name} package.
         </p>
         <Link href="/" className="btn-green mt-6 inline-block">
           Back to Predictions
@@ -41,13 +45,13 @@ function CheckoutForm() {
     <div className="mx-auto max-w-md rounded bg-white p-6 shadow-sm">
       <h1 className="text-lg font-bold text-gray-800">Checkout — {plan.name}</h1>
       <p className="mt-1 text-sm text-gray-500">
-        {plan.odds} odds daily · KSH {plan.price}
+        {priceLabel(plan.currency, plan.price)} per {plan.period} · {plan.market}
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 space-y-4">
         <div>
           <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-            M-Pesa Phone Number
+            Delivery phone number
           </label>
           <input
             id="phone"
@@ -61,26 +65,21 @@ function CheckoutForm() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Select Plan</label>
-          <div className="mt-2 space-y-2">
-            {PREMIUM_PLANS.map((p) => (
-              <Link
-                key={p.id}
-                href={`/premium/checkout?plan=${p.id}`}
-                className={`block rounded border px-3 py-2 text-sm transition ${
-                  p.id === plan.id
-                    ? "border-brand-green bg-green-50 font-semibold"
-                    : "border-gray-200 hover:border-gray-300"
-                }`}
-              >
-                {p.name} — KSH {p.price} ({p.odds} odds)
-              </Link>
+          <label htmlFor="plan" className="block text-sm font-medium text-gray-700">Select Plan</label>
+          <select
+            id="plan"
+            value={plan.id}
+            onChange={(event) => { window.location.href = `/premium/checkout?plan=${event.target.value}`; }}
+            className="mt-2 w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-brand-green focus:outline-none focus:ring-1 focus:ring-brand-green"
+          >
+            {PREMIUM_PLANS.map((item) => (
+              <option key={item.id} value={item.id}>{item.name} — {priceLabel(item.currency, item.price)}</option>
             ))}
-          </div>
+          </select>
         </div>
 
         <button type="submit" className="btn-green w-full py-3 text-base font-bold">
-          PREVIEW KSH {plan.price} CHECKOUT
+          PREVIEW {priceLabel(plan.currency, plan.price)} CHECKOUT
         </button>
 
         <p className="text-center text-[10px] text-gray-400">

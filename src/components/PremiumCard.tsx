@@ -1,19 +1,8 @@
 import Link from "next/link";
 import { PREMIUM_PLANS } from "@/lib/constants";
 
-function StarRating({ rating }: { rating: number }) {
-  return (
-    <div className="flex gap-0.5">
-      {[1, 2, 3, 4, 5].map((star) => (
-        <span
-          key={star}
-          className={`text-sm ${star <= Math.floor(rating) ? "text-yellow-400" : star - 0.5 <= rating ? "text-yellow-400 opacity-60" : "text-gray-600"}`}
-        >
-          ★
-        </span>
-      ))}
-    </div>
-  );
+function priceLabel(currency: string, price: number): string {
+  return currency === "USD" ? `$${price}` : `KES ${price.toLocaleString("en-KE")}`;
 }
 
 export default function PremiumCard({
@@ -44,7 +33,7 @@ export default function PremiumCard({
         <span className="rounded-full bg-brand-green/20 px-3 py-1 text-xs font-bold text-brand-green">
           {plan.name}
         </span>
-        <StarRating rating={plan.rating} />
+        <span className="text-xs font-semibold uppercase text-gray-400">{plan.market}</span>
       </div>
 
       <p className="relative mt-4 text-sm leading-relaxed text-gray-300">
@@ -64,9 +53,9 @@ export default function PremiumCard({
           href={`/premium/checkout?plan=${plan.id}`}
           className="btn-green px-6 py-2.5 text-sm font-bold"
         >
-          VIEW @ {plan.currency}. {plan.price}
+          VIEW @ {priceLabel(plan.currency, plan.price)}
         </Link>
-        <span className="text-xs text-gray-500">{plan.odds} odds</span>
+        <span className="text-xs capitalize text-gray-500">per {plan.period}</span>
       </div>
     </div>
   );

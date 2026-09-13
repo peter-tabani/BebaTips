@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ResponsibleNotice from "@/components/ResponsibleNotice";
-import { SITE_NAME, SITE_TAGLINE } from "@/lib/constants";
+import { SITE_NAME, SITE_TAGLINE, SITE_URL } from "@/lib/constants";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || SITE_URL),
   title: {
     default: `${SITE_NAME} — Football Predictions & Betting Tips`,
     template: `%s | ${SITE_NAME}`,
@@ -23,6 +24,8 @@ export const metadata: Metadata = {
   openGraph: {
     title: SITE_NAME,
     description: SITE_TAGLINE,
+    url: "/",
+    siteName: SITE_NAME,
     type: "website",
   },
 };

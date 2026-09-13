@@ -16,6 +16,8 @@ export interface Match {
   homeTeamLogo?: string;
   awayTeamLogo?: string;
   matchday?: number;
+  homeScore?: number | null;
+  awayScore?: number | null;
 }
 
 export interface MatchResult {
@@ -51,6 +53,7 @@ export interface MatchInsights {
     summary: string;
     angle: string;
     confidence: "low" | "medium" | "high";
+    tips: string[];
     generatedAt: string;
   };
   recentForm: { team: string; results: MatchResult[] }[];

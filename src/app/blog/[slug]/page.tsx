@@ -7,7 +7,7 @@ import { blogPosts } from "@/lib/data";
 const ARTICLE_BODY: Record<string, string[]> = {
   "sportpesa-mega-jackpot-guide-2026": [
     "The SportPesa Mega Jackpot is one of the biggest betting prizes in East Africa, regularly exceeding KSH 100 million. To play, you need to correctly predict the outcomes of 17 pre-selected matches.",
-    "Our Platinum subscribers receive the full 17 picks every Friday before the deadline. We analyse home form, away records, injury lists, and historical head-to-head data for each fixture.",
+    "Our jackpot subscribers receive the full set of picks before the deadline. We analyse home form, away records, injury lists, and historical head-to-head data for each fixture.",
     "A common mistake is picking too many draws. Statistically, roughly 25% of Mega Jackpot games end in a draw — but most casual players pick 5 or more. We typically include 2–3 draw predictions in our full card.",
     "Stake wisely. The minimum bet is KSH 99, but remember the odds of hitting all 17 are extremely long. Treat it as entertainment, not income.",
   ],
@@ -21,7 +21,7 @@ const ARTICLE_BODY: Record<string, string[]> = {
     "This weekend's Premier League fixtures offer strong home-win value. Liverpool at Anfield against Nottingham Forest look solid — Forest have lost 4 of their last 5 away games.",
     "The Manchester derby is always tricky, but City's home record against mid-table sides is exceptional. Over 2.5 goals has landed in 7 of their last 10 home league games.",
     "In the early kickoff, Arsenal host Brighton. Arsenal's defensive record at the Emirates is the best in the league — a home win at odds around 1.65 offers reasonable value.",
-    "Check our free tips table for the full list of picks, or upgrade to Gold for the combined weekend accumulator.",
+    "Check our free tips table for the current list of picks, or choose a premium access plan for additional analysis.",
   ],
   "both-teams-to-score-tips": [
     "BTTS (Both Teams to Score) is one of the most popular markets on Betika and SportPesa, but not every match suits it. High-scoring leagues like the Bundesliga and Eredivisie produce more BTTS winners than Serie A.",

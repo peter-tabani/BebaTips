@@ -70,7 +70,7 @@ export const blogPosts: BlogPost[] = [
     slug: "sportpesa-mega-jackpot-guide-2026",
     title: "How to Play SportPesa Mega Jackpot — Complete Guide for 2026",
     excerpt:
-      "Everything you need to know about picking Mega Jackpot games, stake amounts, and how our Platinum tips can boost your chances.",
+      "Everything you need to know about picking Mega Jackpot games, stake amounts, and how our premium analysis can support your decisions.",
     date: "2026-08-27",
     category: "Jackpots",
     readTime: "6 min",

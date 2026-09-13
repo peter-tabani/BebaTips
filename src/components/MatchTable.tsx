@@ -39,16 +39,28 @@ function matchesActiveTab(match: Match, activeTab: string) {
   return false;
 }
 
+function nairobiDate(offset = 0): string {
+  const target = new Date(Date.now() + offset * 86400000);
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    timeZone: "Africa/Nairobi",
+  }).formatToParts(target);
+  const values = Object.fromEntries(parts.map((part) => [part.type, part.value]));
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
 export default function MatchTable({ matches, showTips = true, leagueFilter }: MatchTableProps) {
   const [activeTab, setActiveTab] = useState<string>("Main Games");
   const [search, setSearch] = useState("");
-  const [dateOffset, setDateOffset] = useState(0);
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [visibleMatches, setVisibleMatches] = useState(matches);
   const [isLoading, setIsLoading] = useState(false);
   const [loadError, setLoadError] = useState("");
   const [displayLimit, setDisplayLimit] = useState(120);
   useEffect(() => {
-    if (dateOffset === 0) {
+    if (selectedDate === null) {
       setVisibleMatches(matches);
       return;
     }
@@ -57,7 +69,7 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
     setIsLoading(true);
     setLoadError("");
 
-    fetch(`/api/matches?offset=${dateOffset}`, { signal: controller.signal })
+    fetch(`/api/matches?date=${encodeURIComponent(selectedDate)}`, { signal: controller.signal })
       .then(async (response) => {
         if (!response.ok) throw new Error("Could not load fixtures");
         return response.json() as Promise<{ matches: Match[] }>;
@@ -70,9 +82,9 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
       .finally(() => setIsLoading(false));
 
     return () => controller.abort();
-  }, [dateOffset, matches]);
+  }, [selectedDate, matches]);
 
-  useEffect(() => setDisplayLimit(120), [activeTab, search, dateOffset, leagueFilter]);
+  useEffect(() => setDisplayLimit(120), [activeTab, search, selectedDate, leagueFilter]);
 
   const filtered = visibleMatches.filter((m) => {
     if (leagueFilter && m.leagueCode !== leagueFilter) return false;
@@ -101,20 +113,19 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
   const hasMultipleDates = new Set(visibleMatches.map((match) => match.date).filter(Boolean)).size > 1;
 
   const dateLabel = (() => {
-    const d = new Date();
-    d.setDate(d.getDate() + dateOffset);
-    if (dateOffset === 0) {
+    if (selectedDate === null) {
       if (hasMultipleDates) return `Next 7 days · ${visibleMatches.length} fixtures`;
       const shownDate = visibleMatches[0]?.date;
-      const today = d.toISOString().split("T")[0];
+      const today = nairobiDate();
       if (shownDate && shownDate !== today) {
         return `Next fixtures · ${new Date(`${shownDate}T12:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" })}`;
       }
-      return "Today";
+      return "Next 7 days";
     }
-    if (dateOffset === -1) return "Yesterday";
-    if (dateOffset === 1) return "Tomorrow";
-    return d.toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" });
+    if (selectedDate === nairobiDate(-1)) return "Yesterday";
+    if (selectedDate === nairobiDate()) return "Today";
+    if (selectedDate === nairobiDate(1)) return "Tomorrow";
+    return new Date(`${selectedDate}T12:00:00`).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
   })();
 
   return (
@@ -149,35 +160,36 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
         )}
       </div>
 
-      <div className="flex items-center justify-between border-b border-gray-200 bg-gray-50 px-4 py-2">
-        <button
-          type="button"
-          onClick={() => setDateOffset((d) => d - 1)}
-          className="rounded px-3 py-1 text-lg text-gray-600 hover:bg-gray-200"
-          aria-label="Previous day"
-        >
-          &lsaquo;
-        </button>
-        <span className="text-sm font-semibold text-gray-700">{dateLabel}</span>
-        <button
-          type="button"
-          onClick={() => setDateOffset((d) => d + 1)}
-          className="rounded px-3 py-1 text-lg text-gray-600 hover:bg-gray-200"
-          aria-label="Next day"
-        >
-          &rsaquo;
-        </button>
+      <div className="border-b border-gray-200 bg-gray-50 px-3 py-3">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {[
+            { label: "Next 7 days", date: null },
+            { label: "Yesterday", date: nairobiDate(-1) },
+            { label: "Today", date: nairobiDate() },
+            { label: "Tomorrow", date: nairobiDate(1) },
+          ].map((option) => (
+            <button
+              key={option.label}
+              type="button"
+              onClick={() => setSelectedDate(option.date)}
+              className={`rounded px-3 py-1.5 text-xs font-semibold transition ${selectedDate === option.date ? "bg-brand-green text-white" : "border border-gray-200 bg-white text-gray-600 hover:border-brand-green"}`}
+            >
+              {option.label}
+            </button>
+          ))}
+          <label className="relative rounded border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-600 hover:border-brand-green">
+            Calendar
+            <input
+              type="date"
+              value={selectedDate || ""}
+              onChange={(event) => event.target.value && setSelectedDate(event.target.value)}
+              className="absolute inset-0 cursor-pointer opacity-0"
+              aria-label="Choose fixture date"
+            />
+          </label>
+        </div>
+        <p className="mt-2 text-center text-xs font-semibold text-gray-700">{dateLabel}</p>
       </div>
-
-      {dateOffset !== 0 && matches.length > 0 && (
-        <button
-          type="button"
-          onClick={() => setDateOffset(0)}
-          className="w-full border-b border-gray-200 bg-green-50 px-4 py-2 text-xs font-semibold text-brand-green hover:bg-green-100"
-        >
-          Return to the full gameweek
-        </button>
-      )}
 
       {leagueFilter && (
         <div className="flex items-center justify-between border-b border-gray-200 bg-green-50 px-4 py-2 text-xs text-gray-700">
@@ -219,7 +231,7 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
 
       {Object.entries(grouped).map(([date, leagues]) => (
         <div key={date}>
-          {(hasMultipleDates || dateOffset !== 0) && date !== "Upcoming" && (
+          {(hasMultipleDates || selectedDate !== null) && date !== "Upcoming" && (
             <div className="sticky top-[60px] z-10 border-y border-gray-200 bg-white px-4 py-2.5">
               <h2 className="text-sm font-bold text-gray-800">
                 {new Date(`${date}T12:00:00`).toLocaleDateString("en-GB", {
@@ -293,7 +305,7 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
               )}
               <span className="shrink-0 text-right">
                 <Link
-                  href={`/match/${match.id}?${hasMultipleDates && dateOffset === 0 ? "range=week" : `offset=${dateOffset}`}`}
+                  href={`/match/${match.id}?${selectedDate === null ? "range=week" : `date=${encodeURIComponent(selectedDate)}`}`}
                   className="btn-outline-green"
                 >
                   TIP

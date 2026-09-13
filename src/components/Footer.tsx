@@ -1,10 +1,10 @@
 import Link from "next/link";
-import { SITE_NAME } from "@/lib/constants";
+import { SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
 
 export default function Footer() {
   return (
     <footer className="mt-auto bg-brand-dark text-gray-400">
-      <div className="mx-auto grid max-w-[1400px] gap-8 px-4 py-10 md:grid-cols-3">
+      <div className="mx-auto grid max-w-[1400px] gap-8 px-4 py-10 md:grid-cols-4">
         <div>
           <div className="mb-3 flex items-center gap-2">
             <span className="flex h-8 w-8 items-center justify-center rounded bg-brand-green text-sm font-black text-white">
@@ -36,6 +36,19 @@ export default function Footer() {
             1X2 · Over/Under · BTTS · Correct Score · Double Chance · Handicap ·
             Accumulators · Bankers · SportPesa Mega Jackpot · Betika Midweek Jackpot
           </p>
+        </div>
+
+        <div>
+          <h4 className="mb-3 text-sm font-bold uppercase text-white">Follow BebaTips</h4>
+          <ul className="space-y-2 text-sm">
+            {SOCIAL_LINKS.map((social) => (
+              <li key={social.name}>
+                <a href={social.href} target="_blank" rel="noreferrer" className="hover:text-brand-green">
+                  {social.name} · {social.label}
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 

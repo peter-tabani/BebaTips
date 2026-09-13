@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import PageLayout from "@/components/PageLayout";
-import { getMatchInsights, getUpcomingGameweekMatches, getUpcomingMatches } from "@/lib/football-api";
+import { getMatchInsights, getMatchesForDate, getUpcomingGameweekMatches, getUpcomingMatches } from "@/lib/football-api";
 import type { MatchInsights, MatchResult } from "@/lib/types";
 
 function FormResults({ results }: { results: MatchResult[] }) {
@@ -72,15 +72,19 @@ export default async function MatchDetailPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ offset?: string; range?: string }>;
+  searchParams: Promise<{ offset?: string; range?: string; date?: string }>;
 }) {
   const { id } = await params;
-  const { offset: rawOffset, range } = await searchParams;
+  const { offset: rawOffset, range, date } = await searchParams;
   const parsedOffset = Number(rawOffset || "0");
   const offset = Number.isInteger(parsedOffset)
     ? Math.max(-7, Math.min(14, parsedOffset))
     : 0;
-  const matches = range === "week" ? await getUpcomingGameweekMatches(7) : await getUpcomingMatches(offset);
+  const matches = range === "week"
+    ? await getUpcomingGameweekMatches(7)
+    : date && /^\d{4}-\d{2}-\d{2}$/.test(date)
+      ? await getMatchesForDate(date)
+      : await getUpcomingMatches(offset);
   const match = matches.find((m) => m.id === Number(id));
 
   if (!match) notFound();
@@ -136,6 +140,21 @@ export default async function MatchDetailPage({
         </div>
       </div>
       <MatchInsightsPanel insights={insights} />
+      {insights?.aiBriefing?.tips && (
+        <section className="mt-4 rounded border border-brand-green/20 bg-brand-navy p-5 text-white">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-brand-green">Premium match selections</p>
+              <h2 className="mt-1 text-lg font-bold">{insights.aiBriefing.tips.length} tips prepared for this match</h2>
+            </div>
+            <span className="rounded bg-white/10 px-3 py-1 text-xs">Locked</span>
+          </div>
+          <p className="mt-3 text-sm text-gray-300">
+            Subscribe to access the 2–3 evidence-based market selections and their reasoning. No outcome is guaranteed.
+          </p>
+          <Link href="/premium" className="btn-green mt-4 inline-block">View subscription plans</Link>
+        </section>
+      )}
     </PageLayout>
   );
 }

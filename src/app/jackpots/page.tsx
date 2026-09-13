@@ -69,7 +69,7 @@ export default function JackpotsPage() {
 
           <div className="border-t border-gray-200 bg-gray-50 px-4 py-3 text-center">
             <Link href="/premium" className="btn-green text-sm">
-              UNLOCK ALL {jp.picks.length} PICKS — KSH 100
+              VIEW JACKPOT PLAN — KES 200/MONTH
             </Link>
           </div>
         </div>

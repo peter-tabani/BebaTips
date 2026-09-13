@@ -15,6 +15,7 @@ interface DeepSeekBriefing {
   summary?: string;
   angle?: string;
   confidence?: "low" | "medium" | "high";
+  tips?: string[];
 }
 
 const requestCachedDeepSeek = unstable_cache(
@@ -31,7 +32,7 @@ const requestCachedDeepSeek = unstable_cache(
         body: JSON.stringify({
           model: "deepseek-chat",
           temperature: 0.1,
-          max_tokens: 180,
+          max_tokens: 260,
           messages: [
             { role: "system", content: "You produce concise, evidence-bound football analysis." },
             { role: "user", content: prompt },
@@ -136,18 +137,22 @@ async function generateDeepSeekBriefing(
     injuries: injuries.map((item) => `${item.player} (${item.team})${item.reason ? ` - ${item.reason}` : ""}`),
   };
 
-  const prompt = `You are a careful football data analyst for BebaTips. Analyze only the supplied data; do not invent odds, injuries, lineups, or facts. Return valid JSON only with exactly three fields: summary (one concise sentence), angle (a cautious 2-5 word label such as Home edge, Away edge, Goals watch, or Avoid), and confidence (low, medium, or high). This is informational decision support, not a guarantee or financial advice. Data: ${JSON.stringify(input)}`;
+  const prompt = `You are a careful football data analyst for BebaTips. Analyze only the supplied data; do not invent odds, injuries, lineups, or facts. Return valid JSON only with exactly four fields: summary (one concise sentence), angle (a cautious 2-5 word label such as Home edge, Away edge, Goals watch, or Avoid), confidence (low, medium, or high), and tips (an array of 2 or 3 short, distinct market selections justified by the supplied evidence; never include invented odds). This is informational decision support, not a guarantee or financial advice. Data: ${JSON.stringify(input)}`;
 
   try {
     const content = await requestCachedDeepSeek(prompt);
     if (!content) return undefined;
     const parsed = JSON.parse(content.replace(/^```json\s*/i, "").replace(/\s*```$/i, "")) as DeepSeekBriefing;
-    if (!parsed.summary || !parsed.angle || !parsed.confidence || !["low", "medium", "high"].includes(parsed.confidence)) return undefined;
+    const tips = Array.isArray(parsed.tips)
+      ? parsed.tips.filter((tip): tip is string => typeof tip === "string" && tip.trim().length > 0).slice(0, 3)
+      : [];
+    if (!parsed.summary || !parsed.angle || !parsed.confidence || !["low", "medium", "high"].includes(parsed.confidence) || tips.length < 2) return undefined;
     return {
       provider: "deepseek",
       summary: parsed.summary.slice(0, 320),
       angle: parsed.angle.slice(0, 40),
       confidence: parsed.confidence,
+      tips: tips.map((tip) => tip.slice(0, 80)),
       generatedAt: new Date().toISOString(),
     };
   } catch {
@@ -203,6 +208,7 @@ interface FootballDataMatch {
   homeTeam: { id: number; name: string; shortName?: string; crest?: string };
   awayTeam: { id: number; name: string; shortName?: string; crest?: string };
   matchday?: number;
+  score?: { fullTime?: { home: number | null; away: number | null } };
 }
 
 interface FootballDataStanding {
@@ -236,6 +242,8 @@ interface SportsDbEvent {
   strLeagueBadge?: string;
   strHomeTeamBadge?: string;
   strAwayTeamBadge?: string;
+  intHomeScore?: string | null;
+  intAwayScore?: string | null;
 }
 
 const SPORTS_DB_LEAGUES: Record<string, { code: string; name: string }> = {
@@ -323,12 +331,20 @@ function mapMatch(raw: FootballDataMatch, table = new Map<number, FootballDataSt
     homeTeamLogo: raw.homeTeam.crest,
     awayTeamLogo: raw.awayTeam.crest,
     matchday: raw.matchday,
+    homeScore: raw.score?.fullTime?.home,
+    awayScore: raw.score?.fullTime?.away,
   };
 }
 
 function sportsDbTime(raw: SportsDbEvent): string {
   const timestamp = raw.strTimestamp || `${raw.dateEvent}T${raw.strTime || "00:00:00"}Z`;
   return formatTime(timestamp);
+}
+
+function sportsDbScore(value?: string | null): number | null {
+  if (value == null || value === "") return null;
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
 }
 
 function mapSportsDbMatch(raw: SportsDbEvent): Match | null {
@@ -354,6 +370,8 @@ function mapSportsDbMatch(raw: SportsDbEvent): Match | null {
     leagueLogo: raw.strLeagueBadge,
     homeTeamLogo: raw.strHomeTeamBadge,
     awayTeamLogo: raw.strAwayTeamBadge,
+    homeScore: sportsDbScore(raw.intHomeScore),
+    awayScore: sportsDbScore(raw.intAwayScore),
   };
 }
 
@@ -491,48 +509,33 @@ export async function getUpcomingGameweekMatches(days = 7): Promise<Match[]> {
   return upcoming.length > 0 ? upcoming : FALLBACK_MATCHES;
 }
 
-export async function getUpcomingMatches(dateOffset = 0): Promise<Match[]> {
+export async function getMatchesForDate(dateStr: string): Promise<Match[]> {
   const apiKey = process.env.FOOTBALL_DATA_API_KEY;
-
-  const dateStr = dateFromOffset(dateOffset);
-  const targetDate = new Date(`${dateStr}T12:00:00Z`);
-  const endDate = new Date(targetDate);
-  if (dateOffset === 0) endDate.setDate(endDate.getDate() + 7);
-  const endDateStr = endDate.toISOString().split("T")[0];
+  const publicRequest = fetchSportsDbMatches(dateStr).catch(() => []);
+  let officialMatches: Match[] = [];
 
   if (apiKey && apiKey !== "your_api_key_here") {
     try {
-    const majorLeagueCodes = new Set(MAJOR_LEAGUES.map((league) => league.id));
-    const availableMatches = (await fetchMatches(apiKey, dateStr, endDateStr)).filter(
-      (match) =>
-        majorLeagueCodes.has(match.competition.code as (typeof MAJOR_LEAGUES)[number]["id"]) &&
-        ["SCHEDULED", "TIMED", "IN_PLAY", "PAUSED", "FINISHED"].includes(match.status)
-    ).sort((a, b) => a.utcDate.localeCompare(b.utcDate));
-    const selectedDate = dateOffset === 0 && availableMatches[0]
-      ? formatDateKey(availableMatches[0].utcDate)
-      : dateStr;
-    const allMatches = availableMatches.filter((match) => formatDateKey(match.utcDate) === selectedDate);
-
-    if (allMatches.length > 0) {
-      return (await mapFootballDataMatches(allMatches, apiKey))
-        .sort((a, b) => a.time.localeCompare(b.time));
-    }
-    // An empty successful response means this provider has no matching
-    // fixtures for the requested date. Continue to the public secondary
-    // feed instead of hiding fixtures that may be available there.
+      const majorLeagueCodes = new Set(MAJOR_LEAGUES.map((league) => league.id));
+      const availableMatches = (await fetchMatches(apiKey, dateStr, dateStr)).filter(
+        (match) =>
+          majorLeagueCodes.has(match.competition.code as (typeof MAJOR_LEAGUES)[number]["id"]) &&
+          ["SCHEDULED", "TIMED", "IN_PLAY", "PAUSED", "FINISHED", "POSTPONED", "SUSPENDED", "CANCELLED"].includes(match.status)
+      );
+      officialMatches = await mapFootballDataMatches(availableMatches, apiKey);
     } catch {
-      // Continue to the public fixture feed when the configured provider is unavailable.
+      // The public provider can still supply this date.
     }
   }
 
-  try {
-    const publicMatches = await fetchSportsDbMatches(dateStr);
-    return publicMatches;
-  } catch {
-    // The static data below keeps the site usable during a public-feed outage.
-  }
+  const publicMatches = await publicRequest;
+  return mergeMatches(officialMatches, publicMatches)
+    .filter((match) => match.date === dateStr)
+    .sort((a, b) => a.time.localeCompare(b.time));
+}
 
-  return FALLBACK_MATCHES;
+export async function getUpcomingMatches(dateOffset = 0): Promise<Match[]> {
+  return getMatchesForDate(dateFromOffset(dateOffset));
 }
 
 export async function getLeagueStandings(competitionCode = "PL"): Promise<LeagueStanding[] | null> {

@@ -15,8 +15,12 @@ export default function TermsPage() {
             Please gamble responsibly.
           </p>
           <p>
-            Premium tip purchases are non-refundable once tips have been delivered via SMS.
-            Tips are sent once per day per plan purchased.
+            Premium access periods and delivery frequency depend on the selected plan. Purchases
+            are non-refundable once the subscribed tips have been delivered or unlocked.
+          </p>
+          <p>
+            References to high-detail or “fixed matches” analysis do not mean an event or outcome
+            is fixed, certain or guaranteed. BebaTips never guarantees winnings.
           </p>
         </div>
       </div>
