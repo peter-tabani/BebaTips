@@ -16,11 +16,11 @@ export const NAV_LINKS = [
 
 export const MAJOR_LEAGUES = [
   { id: "PL", name: "Premier League", country: "England", flag: "🏴󠁧󠁢󠁥󠁮󠁧󠁿", code: 2021, emblem: "https://crests.football-data.org/PL.png" },
-  { id: "CL", name: "Champions League", country: "Europe", flag: "🇪🇺", code: 2001, emblem: "https://crests.football-data.org/CL.png" },
-  { id: "EL", name: "Europa League", country: "Europe", flag: "🇪🇺", code: 2018, emblem: "https://crests.football-data.org/EL.png" },
-  { id: "BL1", name: "Bundesliga", country: "Germany", flag: "🇩🇪", code: 2002, emblem: "https://crests.football-data.org/BL1.png" },
   { id: "PD", name: "La Liga", country: "Spain", flag: "🇪🇸", code: 2014, emblem: "https://crests.football-data.org/PD.png" },
   { id: "SA", name: "Serie A", country: "Italy", flag: "🇮🇹", code: 2019, emblem: "https://crests.football-data.org/SA.png" },
+  { id: "BL1", name: "Bundesliga", country: "Germany", flag: "🇩🇪", code: 2002, emblem: "https://crests.football-data.org/BL1.png" },
+  { id: "CL", name: "Champions League", country: "Europe", flag: "🇪🇺", code: 2001, emblem: "https://crests.football-data.org/CL.png" },
+  { id: "EL", name: "Europa League", country: "Europe", flag: "🇪🇺", code: 2018, emblem: "https://crests.football-data.org/EL.png" },
   { id: "FL1", name: "Ligue 1", country: "France", flag: "🇫🇷", code: 2015, emblem: "https://crests.football-data.org/FL1.png" },
   { id: "DED", name: "Eredivisie", country: "Netherlands", flag: "🇳🇱", code: 2003, emblem: "https://crests.football-data.org/ED.png" },
   { id: "PPL", name: "Primeira Liga", country: "Portugal", flag: "🇵🇹", code: 2017, emblem: "https://crests.football-data.org/PPL.png" },

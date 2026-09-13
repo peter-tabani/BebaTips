@@ -1,6 +1,7 @@
 import AdBanner from "./AdBanner";
 import PopularTools from "./PopularTools";
 import SidebarLeagues from "./SidebarLeagues";
+import MobileBottomNav from "./MobileBottomNav";
 
 interface PageLayoutProps {
   children: React.ReactNode;
@@ -9,11 +10,11 @@ interface PageLayoutProps {
 
 export default function PageLayout({ children, showSidebars = true }: PageLayoutProps) {
   if (!showSidebars) {
-    return <div className="mx-auto max-w-[1400px] px-4 py-6">{children}</div>;
+    return <><div className="mx-auto max-w-[1400px] px-4 py-6 pb-24 md:pb-6">{children}</div><MobileBottomNav /></>;
   }
 
   return (
-    <div className="mx-auto max-w-[1400px] px-4 py-4">
+    <><div className="mx-auto max-w-[1400px] px-4 py-4 pb-24 md:pb-4">
       <AdBanner slot="top-leaderboard" format="leaderboard" className="mb-4 hidden md:flex" />
       <AdBanner slot="top-mobile" format="mobile" className="mb-4" />
 
@@ -34,6 +35,6 @@ export default function PageLayout({ children, showSidebars = true }: PageLayout
       <div className="mt-4 lg:hidden">
         <PopularTools />
       </div>
-    </div>
+    </div><MobileBottomNav /></>
   );
 }

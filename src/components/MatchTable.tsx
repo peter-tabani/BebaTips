@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import SafeLogo from "./SafeLogo";
+import { MAJOR_LEAGUES } from "@/lib/constants";
 import type { Match } from "@/lib/types";
 
 interface MatchTableProps {
@@ -96,6 +97,11 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
       m.awayTeam.toLowerCase().includes(q) ||
       m.league.toLowerCase().includes(q)
     );
+  }).sort((a, b) => {
+    const dateOrder = (a.date || "9999-99-99").localeCompare(b.date || "9999-99-99");
+    if (dateOrder !== 0) return dateOrder;
+    const leagueOrder = MAJOR_LEAGUES.findIndex((league) => league.id === a.leagueCode) - MAJOR_LEAGUES.findIndex((league) => league.id === b.leagueCode);
+    return leagueOrder || a.time.localeCompare(b.time);
   });
 
   const displayed = filtered.slice(0, displayLimit);
@@ -158,6 +164,17 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
         {visibleMatches.every((match) => match.source === "fallback") && (
           <p className="mt-1 text-xs font-medium text-amber-600">● Sample fixtures · live providers are temporarily unavailable</p>
         )}
+      </div>
+
+      <div className="overflow-x-auto border-b border-gray-200 bg-white px-3 py-2">
+        <div className="flex min-w-max items-center gap-2">
+          <span className="mr-1 text-[10px] font-bold uppercase text-gray-400">Popular</span>
+          {MAJOR_LEAGUES.slice(0, 6).map((league) => (
+            <Link key={league.id} href={`/?league=${league.id}`} className={`rounded-full border px-3 py-1 text-[11px] font-semibold ${leagueFilter === league.id ? "border-brand-green bg-green-50 text-brand-green" : "border-gray-200 text-gray-600 hover:border-brand-green"}`}>
+              {league.name === "Premier League" ? "EPL" : league.name.replace("Champions League", "UCL").replace("Bundesliga", "Bundesliga")}
+            </Link>
+          ))}
+        </div>
       </div>
 
       <div className="border-b border-gray-200 bg-gray-50 px-3 py-3">
