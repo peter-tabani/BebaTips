@@ -194,16 +194,6 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
               {option.label}
             </button>
           ))}
-          <label className="relative rounded border border-gray-200 bg-white px-3 py-1.5 text-xs font-semibold text-gray-600 hover:border-brand-green">
-            Calendar
-            <input
-              type="date"
-              value={selectedDate || ""}
-              onChange={(event) => event.target.value && setSelectedDate(event.target.value)}
-              className="absolute inset-0 cursor-pointer opacity-0"
-              aria-label="Choose fixture date"
-            />
-          </label>
         </div>
         <p className="mt-2 text-center text-xs font-semibold text-gray-700">{dateLabel}</p>
       </div>
