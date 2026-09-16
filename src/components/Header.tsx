@@ -15,7 +15,7 @@ export default function Header() {
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-3 sm:px-4">
         <Link href="/" className="flex items-center gap-2 py-2.5 md:py-3">
           <BrandLogo className="h-9 w-9 md:h-10 md:w-10" priority />
-          <span className="hidden text-lg font-bold text-white sm:block">
+          <span className="text-base font-bold text-white sm:text-lg">
             {SITE_NAME}
           </span>
         </Link>
