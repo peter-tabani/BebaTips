@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { PREMIUM_PLANS } from "@/lib/constants";
+import BrandLogo from "@/components/BrandLogo";
 
 type Plan = (typeof PREMIUM_PLANS)[number];
 
@@ -24,9 +25,7 @@ export default function PremiumExperience() {
         <div className="absolute -right-12 -top-20 h-56 w-56 rounded-full border border-white/10" aria-hidden="true" />
         <div className="absolute right-8 top-1/2 h-20 w-32 -translate-y-1/2 rounded-l-full border border-r-0 border-white/10" aria-hidden="true" />
         <div className="relative flex items-center gap-4">
-          <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-green text-lg font-black text-white">
-            BT
-          </div>
+          <BrandLogo className="h-14 w-14 rounded-xl" />
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-green">BebaTips</p>
             <h1 className="mt-0.5 text-2xl font-bold tracking-tight md:text-3xl">Premium tips</h1>

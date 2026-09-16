@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { SITE_NAME, SOCIAL_LINKS } from "@/lib/constants";
 import SocialIcon from "@/components/SocialIcon";
+import BrandLogo from "@/components/BrandLogo";
 
 const socialStyles = {
   X: "border border-white/20 bg-black",
@@ -15,9 +16,7 @@ export default function Footer() {
       <div className="mx-auto grid max-w-[1400px] gap-8 px-4 py-10 md:grid-cols-4">
         <div>
           <div className="mb-3 flex items-center gap-2">
-            <span className="flex h-8 w-8 items-center justify-center rounded bg-brand-green text-sm font-black text-white">
-              BT
-            </span>
+            <BrandLogo className="h-10 w-10" />
             <span className="text-lg font-bold text-white">{SITE_NAME}</span>
           </div>
           <p className="text-sm leading-relaxed">

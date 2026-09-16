@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { NAV_LINKS, SITE_NAME } from "@/lib/constants";
+import BrandLogo from "@/components/BrandLogo";
 
 export default function Header() {
   const pathname = usePathname();
@@ -13,9 +14,7 @@ export default function Header() {
     <header className="sticky top-0 z-50 bg-brand-dark shadow-lg">
       <div className="mx-auto flex max-w-[1400px] items-center justify-between px-3 sm:px-4">
         <Link href="/" className="flex items-center gap-2 py-2.5 md:py-3">
-          <span className="flex h-8 w-8 items-center justify-center rounded bg-brand-green text-base font-black text-white md:h-9 md:w-9 md:text-lg">
-            BT
-          </span>
+          <BrandLogo className="h-9 w-9 md:h-10 md:w-10" priority />
           <span className="hidden text-lg font-bold text-white sm:block">
             {SITE_NAME}
           </span>

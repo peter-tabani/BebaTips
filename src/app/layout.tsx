@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     template: `%s | ${SITE_NAME}`,
   },
   description: SITE_TAGLINE,
+  icons: {
+    icon: "/images/bebatips-logo.png",
+    apple: "/images/bebatips-logo.png",
+  },
   keywords: [
     "football predictions",
     "betting tips Kenya",
