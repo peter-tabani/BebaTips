@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import PageLayout from "@/components/PageLayout";
 import MatchTable from "@/components/MatchTable";
 import WhyChooseUs from "@/components/WhyChooseUs";
@@ -5,6 +6,12 @@ import AdBanner from "@/components/AdBanner";
 import AccumulatorCard from "@/components/AccumulatorCard";
 import { buildGameweekShortlist, getUpcomingGameweekMatches } from "@/lib/football-api";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Free Football Predictions, Fixtures & Betting Tips",
+  description: "Today and upcoming football predictions, match fixtures, form signals and betting tips for the Premier League, La Liga, Serie A and more.",
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage({
   searchParams,

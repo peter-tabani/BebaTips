@@ -42,7 +42,7 @@ cp .env.example .env.local
 | `API_FOOTBALL_KEY` | Match form, injuries, lineups and head-to-head data |
 | `DEEPSEEK_API_KEY` | Cached AI match briefings and premium selections |
 | `CRON_SECRET` | Secures scheduled refresh endpoints |
-| `NEXT_PUBLIC_SITE_URL` | Public site URL, normally `https://bebatips.com` |
+| `NEXT_PUBLIC_SITE_URL` | Public site URL, normally `https://www.bebatips.com` |
 | `NEXT_PUBLIC_WHATSAPP_NUMBER` | Your WhatsApp number (no + prefix) |
 | `NEXT_PUBLIC_ADSENSE_CLIENT` | Google AdSense publisher ID |
 

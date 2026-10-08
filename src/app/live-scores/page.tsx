@@ -6,6 +6,7 @@ import { getUpcomingMatches } from "@/lib/football-api";
 export const metadata: Metadata = {
   title: "Football Match Centre — Fixtures, Results & Status",
   description: "Automatically refreshed football fixtures, match status and results from major leagues.",
+  alternates: { canonical: "/live-scores" },
 };
 
 export default async function LiveScoresPage() {

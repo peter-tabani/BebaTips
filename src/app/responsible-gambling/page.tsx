@@ -4,6 +4,7 @@ import PageLayout from "@/components/PageLayout";
 export const metadata: Metadata = {
   title: "Responsible Gambling — Limits, Warning Signs & Help",
   description: "Practical responsible-gambling guidance for adults using football betting information.",
+  alternates: { canonical: "/responsible-gambling" },
 };
 
 const WARNING_SIGNS = [

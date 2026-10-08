@@ -6,8 +6,9 @@ import Link from "next/link";
 import { MAJOR_LEAGUES } from "@/lib/constants";
 
 export const metadata: Metadata = {
-  title: "League Standings",
-  description: "Current standings for major European football leagues.",
+  title: "Football League Tables & Standings",
+  description: "Current Premier League, La Liga, Serie A, Bundesliga and other football league tables.",
+  alternates: { canonical: "/standings" },
 };
 
 const STANDINGS: LeagueStanding[] = [

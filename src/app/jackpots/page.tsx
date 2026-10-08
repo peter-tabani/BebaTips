@@ -7,6 +7,7 @@ import { jackpots } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Jackpot Predictions — SportPesa & Betika",
   description: "Mega Jackpot and Midweek Jackpot predictions for SportPesa and Betika.",
+  alternates: { canonical: "/jackpots" },
 };
 
 export default function JackpotsPage() {

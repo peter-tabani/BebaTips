@@ -7,6 +7,7 @@ import { blogPosts } from "@/lib/data";
 export const metadata: Metadata = {
   title: "Betting Blog — Tips, Strategy & Guides",
   description: "Football betting guides, jackpot strategies, and Premier League previews.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function BlogPage() {

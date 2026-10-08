@@ -43,7 +43,19 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = blogPosts.find((p) => p.slug === slug);
   if (!post) return { title: "Article Not Found" };
-  return { title: post.title, description: post.excerpt };
+  return {
+    title: post.title,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+    openGraph: {
+      type: "article",
+      title: post.title,
+      description: post.excerpt,
+      publishedTime: post.date,
+      section: post.category,
+      images: ["/images/bebatips-hero-desktop.png"],
+    },
+  };
 }
 
 export default async function BlogArticlePage({
@@ -60,6 +72,23 @@ export default async function BlogArticlePage({
   return (
     <PageLayout>
       <article className="rounded bg-white p-6 shadow-sm md:p-8">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: post.title,
+              description: post.excerpt,
+              datePublished: post.date,
+              dateModified: post.date,
+              author: { "@type": "Organization", name: "BebaTips" },
+              publisher: { "@type": "Organization", name: "BebaTips" },
+              mainEntityOfPage: `https://www.bebatips.com/blog/${post.slug}`,
+              image: ["https://www.bebatips.com/images/bebatips-hero-desktop.png"],
+            }),
+          }}
+        />
         <div className="text-xs text-gray-500">
           <Link href="/blog" className="hover:text-brand-green">Blog</Link>
           {" / "}

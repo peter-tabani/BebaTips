@@ -5,6 +5,7 @@ import BookmakerAds from "@/components/BookmakerAds";
 export const metadata: Metadata = {
   title: "Bookmaker Comparison & Affiliate Disclosure",
   description: "BebaTips bookmaker comparison area and disclosure policy for Kenyan football fans.",
+  alternates: { canonical: "/bookmakers" },
 };
 
 export default function BookmakersPage() {

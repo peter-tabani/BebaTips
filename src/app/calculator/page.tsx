@@ -6,6 +6,7 @@ import AdBanner from "@/components/AdBanner";
 export const metadata: Metadata = {
   title: "Bet Calculator — Returns, Profit & Accumulator Odds",
   description: "Free Kenyan betting calculator for decimal odds, potential returns, profit, implied probability and accumulator odds.",
+  alternates: { canonical: "/calculator" },
 };
 
 export default function CalculatorPage() {

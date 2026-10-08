@@ -6,6 +6,7 @@ export const metadata: Metadata = {
   title: "Premium Tips | Daily, Weekly, Monthly & Yearly",
   description:
     "Review BebaTips daily, weekly, monthly and yearly football tip plans priced in Kenyan shillings.",
+  alternates: { canonical: "/premium" },
 };
 
 export default function PremiumPage() {

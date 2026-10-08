@@ -8,6 +8,7 @@ import { buildGameweekShortlist, getUpcomingGameweekMatches } from "@/lib/footba
 export const metadata: Metadata = {
   title: "Accumulator Tips — Daily Football Accas",
   description: "Free and premium accumulator tips for Premier League, La Liga, Serie A and more.",
+  alternates: { canonical: "/accumulators" },
 };
 
 export default async function AccumulatorsPage() {

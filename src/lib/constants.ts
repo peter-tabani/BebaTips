@@ -1,5 +1,5 @@
 export const SITE_NAME = "BebaTips";
-export const SITE_URL = "https://bebatips.com";
+export const SITE_URL = "https://www.bebatips.com";
 export const SITE_TAGLINE =
   "Expert football predictions & betting tips for Kenya and beyond";
 
