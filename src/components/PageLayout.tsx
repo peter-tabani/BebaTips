@@ -10,11 +10,11 @@ interface PageLayoutProps {
 
 export default function PageLayout({ children, showSidebars = true }: PageLayoutProps) {
   if (!showSidebars) {
-    return <><div className="mx-auto max-w-[1400px] px-4 py-6 pb-24 md:pb-6">{children}</div><MobileBottomNav /></>;
+    return <><div className="mx-auto max-w-[1400px] px-4 py-6 pb-24 sm:pb-6">{children}</div><MobileBottomNav /></>;
   }
 
   return (
-    <><div className="mx-auto max-w-[1400px] px-4 py-4 pb-24 md:pb-4">
+    <><div className="mx-auto max-w-[1400px] px-4 py-4 pb-24 sm:pb-4">
       <AdBanner slot="top-leaderboard" format="leaderboard" className="mb-4 hidden md:flex" />
       <AdBanner slot="top-mobile" format="mobile" className="mb-4" />
 

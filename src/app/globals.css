@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,7 +10,8 @@
   }
 
   body {
-    @apply bg-[#eef0f3] text-gray-800 antialiased;
+    @apply bg-[#142019] text-gray-100 antialiased;
+    font-family: "Roboto Condensed", "Arial Narrow", sans-serif;
   }
 }
 
@@ -26,7 +29,7 @@
   }
 
   .ad-slot {
-    @apply relative flex min-h-[90px] items-center justify-center overflow-hidden rounded border border-dashed border-gray-300 bg-gray-50 text-center text-xs text-gray-400;
+    @apply relative flex min-h-[90px] items-center justify-center overflow-hidden rounded bg-transparent text-center text-xs text-gray-400;
   }
 
   .ad-slot-skyscraper {
@@ -51,9 +54,74 @@
 }
 
 .tips-table tbody tr:nth-child(even) {
-  background-color: #f7f8fa;
+  background-color: #1b2921;
 }
 
 .tips-table tbody tr:hover {
-  background-color: #eef6ee;
+  background-color: #20402b;
 }
+
+/* Give the existing cards, controls, and accents one consistent dark palette. */
+body .bg-white { background-color: #142019; }
+body .bg-white\/95 { background-color: rgb(20 32 25 / 95%); }
+body .bg-gray-50 { background-color: #1a2920; }
+body .bg-gray-100 { background-color: #223329; }
+body .bg-gray-200 { background-color: #2a3d30; }
+body .bg-green-50,
+body .bg-emerald-50 { background-color: #173923; }
+body .bg-green-100,
+body .bg-emerald-100 { background-color: #205435; }
+body .bg-green-200\/70 { background-color: #246c3e; }
+body .bg-blue-50 { background-color: #152d42; }
+body .bg-red-50,
+body .bg-red-100 { background-color: #3c2022; }
+body .bg-amber-50,
+body .bg-yellow-100 { background-color: #3a301a; }
+body .bg-pink-50 { background-color: #392337; }
+
+body .text-gray-900,
+body .text-gray-800 { color: #f0f5f0; }
+body .text-brand-navy { color: #f0f5f0; }
+body .text-gray-700 { color: #d4dfd5; }
+body .text-gray-600 { color: #bdcbbf; }
+body .text-gray-500 { color: #a9baad; }
+body .text-gray-400 { color: #9eaea2; }
+body .text-blue-600,
+body .text-blue-700,
+body .text-blue-800 { color: #8dc3ff; }
+body .text-red-700 { color: #ffaaaa; }
+body .text-amber-600,
+body .text-amber-800,
+body .text-amber-900,
+body .text-amber-950,
+body .text-yellow-700 { color: #f4cc79; }
+body .text-emerald-700,
+body .text-emerald-800,
+body .text-emerald-900,
+body .text-green-700 { color: #9ee6ae; }
+body .text-emerald-800\/60 { color: #9bcbaa; }
+
+body .border-gray-100,
+body .border-gray-200 { border-color: #304237; }
+body .border-gray-300 { border-color: #48604e; }
+body .border-emerald-100,
+body .border-emerald-200,
+body .border-blue-100 { border-color: #356249; }
+body .border-red-100 { border-color: #704247; }
+
+body .bg-brand-green { background-color: #16823c; }
+body .hover\:bg-gray-50:hover { background-color: #263a2c; }
+body .hover\:bg-green-50:hover { background-color: #225332; }
+body .hover\:bg-green-200\/70:hover { background-color: #2a7a46; }
+body .hover\:text-gray-800:hover { color: #ffffff; }
+
+body input:not([type="checkbox"]):not([type="radio"]),
+body select,
+body textarea {
+  background-color: #1b2921;
+  color: #f0f5f0;
+  border-color: #48604e;
+}
+
+body input::placeholder,
+body textarea::placeholder { color: #9eaea2; }

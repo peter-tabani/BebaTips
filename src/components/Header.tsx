@@ -47,9 +47,9 @@ export default function Header() {
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
         >
-          <span className={`block h-0.5 w-6 bg-white transition ${menuOpen ? "translate-y-2 rotate-45" : ""}`} />
-          <span className={`block h-0.5 w-6 bg-white transition ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block h-0.5 w-6 bg-white transition ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
+          <span className={`block h-0.5 w-6 bg-[#f0f5f0] transition ${menuOpen ? "translate-y-2 rotate-45" : ""}`} />
+          <span className={`block h-0.5 w-6 bg-[#f0f5f0] transition ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block h-0.5 w-6 bg-[#f0f5f0] transition ${menuOpen ? "-translate-y-2 -rotate-45" : ""}`} />
         </button>
       </div>
 

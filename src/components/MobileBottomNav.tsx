@@ -25,7 +25,7 @@ export default function MobileBottomNav() {
   return (
     <>
       {moreOpen && (
-        <div className="fixed inset-x-3 bottom-[4.75rem] z-50 rounded-xl border border-gray-200 bg-white p-2 shadow-xl md:hidden">
+        <div className="fixed inset-x-3 bottom-[4.75rem] z-50 rounded-xl border border-gray-200 bg-white p-2 shadow-xl sm:hidden">
           <div className="grid grid-cols-2 gap-1">
             {MORE_LINKS.map((link) => (
               <Link key={link.href} href={link.href} onClick={() => setMoreOpen(false)} className="rounded-lg px-3 py-3 text-center text-xs font-semibold text-gray-700 hover:bg-green-50 hover:text-brand-green">
@@ -35,7 +35,7 @@ export default function MobileBottomNav() {
           </div>
         </div>
       )}
-      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur md:hidden" style={{ paddingBottom: "env(safe-area-inset-bottom)" }} aria-label="Mobile navigation">
+      <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 shadow-[0_-4px_16px_rgba(0,0,0,0.08)] backdrop-blur sm:hidden" style={{ paddingBottom: "env(safe-area-inset-bottom)" }} aria-label="Mobile navigation">
         <div className="mx-auto grid max-w-lg grid-cols-5">
           {PRIMARY_LINKS.map((link) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href);

@@ -137,41 +137,51 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
   return (
     <div className="rounded bg-white shadow-sm">
       <div className="border-b border-gray-200 px-4 py-4">
-        <div className="relative -mx-4 mb-3 aspect-[1800/620] overflow-hidden rounded-t md:aspect-[3200/620]">
+        <div className="relative -mx-4 mb-3 aspect-[1800/620] overflow-hidden rounded-t sm:aspect-[3200/620]">
           <Image
             src="/images/bebatips-hero-mobile.png"
             alt="BebaTips — Fixtures, tips and the edge"
             fill
             priority
-            sizes="(max-width: 767px) 100vw, 0px"
-            className="block object-cover object-bottom md:hidden"
+            sizes="(max-width: 639px) 100vw, 0px"
+            className="block object-cover object-bottom sm:hidden"
           />
           <Image
             src="/images/bebatips-hero-desktop.png"
             alt="BebaTips — Fixtures, tips and the edge"
             fill
             priority
-            sizes="(min-width: 768px) 100vw, 0px"
-            className="hidden object-cover md:block"
+            sizes="(min-width: 640px) 100vw, 0px"
+            className="hidden object-cover sm:block"
           />
         </div>
         {visibleMatches.some((match) => match.source === "football-data") && (
           <p className="mt-1 text-[11px] font-medium text-emerald-600">● Live feeds connected</p>
-        )}
-        {visibleMatches.every((match) => match.source === "sports-db") && (
-          <p className="mt-1 text-[11px] font-medium text-blue-600">● Worldwide fixtures · refreshed automatically</p>
         )}
         {visibleMatches.every((match) => match.source === "fallback") && (
           <p className="mt-1 text-xs font-medium text-amber-600">● Sample fixtures · live providers are temporarily unavailable</p>
         )}
       </div>
 
-      <div className="overflow-x-auto border-b border-gray-200 bg-white px-3 py-2">
-        <div className="flex min-w-max items-center gap-2">
-          <span className="mr-1 text-[10px] font-bold uppercase text-gray-400">Popular</span>
+      <div className="overflow-x-auto border-b border-emerald-100 bg-emerald-50 px-4 py-2.5">
+        <div className="flex min-w-[560px] items-center justify-between gap-2 md:min-w-0">
+          <span className="mr-1 shrink-0 text-[10px] font-bold uppercase text-emerald-800/60 md:mr-3">Popular</span>
           {MAJOR_LEAGUES.slice(0, 6).map((league) => (
-            <Link key={league.id} href={`/?league=${league.id}`} className={`rounded-full border px-3 py-1 text-[11px] font-semibold ${leagueFilter === league.id ? "border-brand-green bg-green-50 text-brand-green" : "border-gray-200 text-gray-600 hover:border-brand-green"}`}>
-              {league.name === "Premier League" ? "EPL" : league.name.replace("Champions League", "UCL").replace("Bundesliga", "Bundesliga")}
+            <Link
+              key={league.id}
+              href={`/?league=${league.id}`}
+              aria-label={`Filter matches by ${league.name}`}
+              title={league.name}
+              className={`flex h-[68px] w-[68px] shrink-0 flex-col items-center justify-center gap-1 rounded-lg border transition md:h-[72px] md:w-[72px] ${leagueFilter === league.id ? "border-brand-green bg-green-200/70 text-brand-green" : "border-emerald-200 bg-green-200/70 text-gray-700 hover:border-brand-green hover:bg-green-200/70"}`}
+            >
+              {league.emblem ? (
+                <Image src={league.emblem} alt="" width={36} height={36} sizes="36px" className="h-9 w-9 object-contain" />
+              ) : (
+                <span aria-hidden="true" className="text-2xl">{league.flag}</span>
+              )}
+              <span className="max-w-full truncate px-1 text-[9px] font-bold leading-none">
+                {league.id === "PL" ? "EPL" : league.id === "PD" ? "LALIGA" : league.id === "SA" ? "SERIE A" : league.id === "CL" ? "UCL" : league.id === "EL" ? "UEL" : "BUNDESLIGA"}
+              </span>
             </Link>
           ))}
         </div>
@@ -269,7 +279,7 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
             )}
           </div>
 
-          <div className="hidden md:grid md:grid-cols-[70px_1fr_100px_80px] md:gap-2 md:border-b md:border-gray-200 md:bg-gray-100 md:px-4 md:py-2 md:text-xs md:font-semibold md:uppercase md:text-gray-500">
+          <div className="hidden md:grid md:grid-cols-[70px_1fr_100px_80px] md:gap-2 md:border-b md:border-[#304237] md:bg-[#223329] md:px-4 md:py-2 md:text-xs md:font-semibold md:uppercase md:text-[#a9baad]">
             <span>Time</span>
             <span>Fixture</span>
             {showTips && <span>Tip</span>}
