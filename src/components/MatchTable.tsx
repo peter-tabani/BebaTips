@@ -23,8 +23,25 @@ const TABS = [
   "Accumulators",
 ] as const;
 
+const TIP_LABELS: Record<string, string> = {
+  "1": "Home win",
+  X: "Draw",
+  "2": "Away win",
+  "1X": "Home win or draw",
+  X2: "Away win or draw",
+  "12": "Either team to win",
+  GG: "Both teams to score",
+  NG: "Both teams not to score",
+};
+
+function hasFreeTip(match: Match) {
+  return match.source !== "fallback" && match.tipType === "free" && Boolean(match.tip.trim()) && match.tip !== "Stats soon";
+}
+
 function matchesActiveTab(match: Match, activeTab: string) {
-  if (activeTab === "Main Games" || activeTab === "Betting Tips") return true;
+  if (activeTab === "Main Games") return true;
+  if (!hasFreeTip(match)) return false;
+  if (activeTab === "Betting Tips") return true;
 
   if (activeTab === "1X2 Tips") {
     return ["1", "X", "2", "1X", "X2", "12"].includes(match.tip);
@@ -34,7 +51,7 @@ function matchesActiveTab(match: Match, activeTab: string) {
     return /^(Over|Under) 2\.5$/.test(match.tip);
   }
 
-  if (activeTab === "Both Teams to Score") return match.tip === "GG";
+  if (activeTab === "Both Teams to Score") return ["GG", "NG"].includes(match.tip);
 
   // Correct-score and accumulator picks are published separately, not inferred from a fixture.
   return false;
@@ -53,6 +70,9 @@ function nairobiDate(offset = 0): string {
 }
 
 export default function MatchTable({ matches, showTips = true, leagueFilter }: MatchTableProps) {
+  const fixtureColumns = showTips
+    ? "md:grid-cols-[3.5rem_minmax(0,1fr)_minmax(9rem,1fr)_4rem]"
+    : "md:grid-cols-[3.5rem_minmax(0,1fr)_4rem]";
   const [activeTab, setActiveTab] = useState<string>("Main Games");
   const [search, setSearch] = useState("");
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
@@ -219,7 +239,7 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
 
       <div className="overflow-x-auto border-b border-gray-200">
         <div className="flex min-w-max gap-0 px-2">
-          {TABS.map((tab) => (
+          {(showTips ? TABS : TABS.slice(0, 1)).map((tab) => (
             <button
               key={tab}
               type="button"
@@ -279,17 +299,17 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
             )}
           </div>
 
-          <div className="hidden md:grid md:grid-cols-[70px_1fr_100px_80px] md:gap-2 md:border-b md:border-[#304237] md:bg-[#223329] md:px-4 md:py-2 md:text-xs md:font-semibold md:uppercase md:text-[#a9baad]">
-            <span>Time</span>
+          <div className={`hidden md:grid ${fixtureColumns} md:gap-3 md:border-b md:border-[#304237] md:bg-[#223329] md:px-3 md:py-2 md:text-xs md:font-semibold md:uppercase md:text-[#a9baad]`}>
+            <span>EAT</span>
             <span>Fixture</span>
-            {showTips && <span>Tip</span>}
-            <span className="text-right">Action</span>
+            {showTips && <span>Prediction</span>}
+            <span className="sr-only">Match details</span>
           </div>
 
           {leagueMatches.map((match) => (
             <div
               key={match.id}
-              className="match-row md:grid md:grid-cols-[70px_1fr_100px_80px] md:gap-2"
+              className={`match-row grid grid-cols-[2.75rem_minmax(0,1fr)_auto] gap-x-2 gap-y-1.5 md:gap-3 ${fixtureColumns}`}
             >
               <span className="shrink-0 font-mono text-xs font-semibold text-gray-600 md:text-sm">
                 {match.time}
@@ -306,26 +326,33 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
                 </span>
               </span>
               {showTips && (
-                <span className="shrink-0">
-                  {match.tipType === "premium" ? (
+                <div className="col-span-2 col-start-2 row-start-2 min-w-0 md:col-span-1 md:col-start-3 md:row-start-1">
+                  <span className="mr-1.5 text-[10px] font-bold uppercase text-gray-400 md:sr-only">Prediction:</span>
+                  {match.tipType === "premium" && match.source !== "fallback" ? (
                     <Link href="/premium" className="text-xs font-bold text-brand-green hover:underline">
-                      VIP 🔒
+                      Premium
                     </Link>
-                  ) : match.tip === "Stats soon" ? (
-                    <span className="text-[10px] font-medium text-gray-400">Stats soon</span>
+                  ) : hasFreeTip(match) ? (
+                    <>
+                      <span className="inline-block rounded bg-[#223b2b] px-2 py-0.5 text-xs font-bold text-[#a7f3bf]">
+                        {TIP_LABELS[match.tip] ?? match.tip}
+                      </span>
+                      {match.analysis && (
+                        <p className="mt-1 text-xs leading-snug text-gray-500">{match.analysis}</p>
+                      )}
+                    </>
                   ) : (
-                    <span className="rounded bg-green-50 px-2 py-0.5 text-xs font-bold text-brand-accent">
-                      {match.tip}
-                    </span>
+                    <span className="text-xs text-gray-500">No tip available</span>
                   )}
-                </span>
+                </div>
               )}
-              <span className="shrink-0 text-right">
+              <span className={`col-start-3 row-start-1 text-right ${showTips ? "md:col-start-4" : ""}`}>
                 <Link
                   href={`/match/${match.id}?${selectedDate === null ? "range=week" : `date=${encodeURIComponent(selectedDate)}`}`}
-                  className="btn-outline-green"
+                  aria-label={`Match details for ${match.homeTeam} vs ${match.awayTeam}`}
+                  className="inline-flex min-h-8 items-center rounded px-1.5 text-xs font-semibold text-[#a7f3bf] hover:underline focus-visible:outline focus-visible:outline-2"
                 >
-                  TIP
+                  Details
                 </Link>
               </span>
             </div>
@@ -347,7 +374,9 @@ export default function MatchTable({ matches, showTips = true, leagueFilter }: M
         <p className="px-4 py-8 text-center text-sm text-gray-500">
           {activeTab === "Correct Score" || activeTab === "Accumulators"
             ? "These picks are published on their dedicated pages."
-            : "No major-league fixtures are available for this date and filter."}
+            : activeTab === "Main Games"
+              ? "No fixtures are available for this date and filter."
+              : "No free tips are available for this date and filter."}
         </p>
       )}
 
